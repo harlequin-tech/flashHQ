@@ -31,7 +31,14 @@
 #ifndef FLASHHQ_H_
 #define FLASHHQ_H_
 
-#include <stdbool.h>
+#include <Arduino.h>
+#include <SPI.h>
+//#include <stdbool.h>
+//#include <stdint.h>
+//#include <string.h>
+//#include <avr/io.h>
+#include <ctype.h>
+
 
 #undef DEBUG_FLASH
 #ifdef DEBUG_FLASH
@@ -102,7 +109,7 @@ int flashPageErase(uint16_t page);
 int flashBlockErase(uint16_t block);
 int flashSectorErase(uint16_t sector);
 
-void flashBufWrite(void *datap, uint16_t offset, uint16_t size);
+void flashBufWrite(const void *datap, uint16_t offset, uint16_t size);
 void flashBufFill(void *datap, uint16_t offset, uint16_t size, uint16_t repeat);
 void flashBufSet(uint8_t value, uint16_t offset, uint16_t size);
 

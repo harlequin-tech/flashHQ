@@ -26,7 +26,6 @@
 #ifndef _FLASHFILE_H
 #define _FLASHFILE_H
 
-#include <stdbool.h>
 #include "flashHQ.h"
 
 #define FLASH_AVAILBLE_SIZE ((FLASH_NUM_PAGES + 7)/8);
@@ -51,6 +50,10 @@ typedef struct {
     uint16_t nextNode;	
 } flashNodeHeader_t;
 
+typedef struct {
+    uint16_t free[FLASH_FREE_NODES];
+} flashNodeMap_t;
+;
 // file data node
 // Files consist of chains of one or more nodes holding the file contents
 typedef struct {
@@ -71,6 +74,7 @@ typedef struct {
 
 typedef struct {
     uint32_t size;	//*< size in bytes
+    uint16_t fileId;	//*< file Id
     uint16_t startNode;	//*< page of start node
     uint16_t endNode;	//*< page of end node
     uint16_t offset;	//*< offset in current node
@@ -83,11 +87,11 @@ typedef struct {
 
 void flashFormat(void);
 uint16_t flashAllocNode(uint16_t node);
-int flashOpen(char *filename, flashFile_t *filep);
+int flashOpen(const char *filename, flashFile_t *filep);
 int flashRead(flashFile_t *filep, uint8_t *buffer, uint16_t size);
 int flashSeek(flashFile_t *filep, uint16_t filepos);
 int flashClose(flashFile_t *filep);
-int flashCreate(char *filename, flashFile_t *filep);
+int flashCreate(const char *filename, flashFile_t *filep);
 int flashWrite(flashFile_t *filep, void *datap, size_t size);
 
 #endif
